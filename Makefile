@@ -10,7 +10,7 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME				:= aaaa
+NAME				:= a
 SRCS				:= main.c ft_malloc.c
 PATH_OBJ			:= objs
 PATH_SRC			:= srcs
@@ -20,7 +20,7 @@ CXXFLAGS			:= -Wall -Wextra -Werror
 DEBUG				:= -g
 OBJECTS				:= $(patsubst %.c, $(PATH_OBJ)/%.o, $(SRCS))
 INCLUDES			:= -I./$(PATH_INC)
-LIBFT				:= libft/
+LIBFT				:= -L libft -lft
 
 
 .PHONY: all clean fclean re

@@ -15,6 +15,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
+#include <stdlib.h>
+
 
 
 // void	*mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
@@ -25,6 +27,8 @@
 //                    rlim_t  rlim_cur;       /* current (soft) limit */
 //                    rlim_t  rlim_max;       /* hard limit */
 //            };
+
+void		*addr = NULL;
 
 
 void				info_struct(t_mem_allow	*mem, size_t size, void *mmap_ptr) {
@@ -43,16 +47,44 @@ void				info_struct(t_mem_allow	*mem, size_t size, void *mmap_ptr) {
 }
 
 void				show_alloc_mem(){
+	
 
 }
 
-void				tiny_malloc(size_t size)
+void				*large_malloc(size_t size)
+{
+
+}
+
+void				*small_malloc(size_t size)
+{
+
+}
+
+void				*tiny_malloc(size_t size)
 {
 	t_mem_allow		mem;
+	void			*re_mem = NULL;
 	char			*mmap_ptr = NULL;
 
-	mmap_ptr = mmap(NULL, mem.total_size, PROT_READ | PROT_WRITE , MAP_ANON | MAP_PRIVATE, -1, 0);
+	mem.type = "TINY";
+	mem.total_size = size + sizeof(mem);
+	mmap_ptr = mmap(NULL, getpagesize(), PROT_READ | PROT_WRITE , MAP_ANON | MAP_PRIVATE, -1, 0);
 	
+	if (addr == NULL)
+		addr = mmap_ptr;
+		
+	printf("%s , ", mem.type);
+	printf("First addr : %p\n", addr);
+	if (addr != NULL)
+		re_mem = &addr;
+		memcpy(addr, &mem, sizeof(mem));
+
+	printf("\nDoes it Work ??? %s\n", ((t_mem_allow*)addr)->type);
+	
+	info_struct(&mem, size, mmap_ptr);
+	show_alloc_mem();
+	return(&re_mem[sizeof(mem)]);
 }
 
 void				*ft_malloc(size_t size)
@@ -69,9 +101,13 @@ void				*ft_malloc(size_t size)
 	printf("rlp.rlim_cur : %llu\n", rlp.rlim_cur);
 
 	if (size < 100)
-		tiny_malloc(size);
+		return (tiny_malloc(size));
+	else if (size < 10000)
+		return (small_malloc(size));
 	else
-	{
+		return (large_malloc(size));
+
+/*	{
 		mem.total_size = size + sizeof(mem);
 
 		mmap_ptr = mmap(NULL, mem.total_size, PROT_READ | PROT_WRITE , MAP_ANON | MAP_PRIVATE, -1, 0);
@@ -83,8 +119,8 @@ void				*ft_malloc(size_t size)
 		size_t	test_struct;
 		test_struct = sizeof(mem);
 
-		// printf("mmap_ptr : %p\n", mmap_ptr);
-	}
+		printf("mmap_ptr : %p\n", mmap_ptr);
+	}*/
 	return (NULL);
 }
 

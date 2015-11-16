@@ -23,11 +23,20 @@ typedef struct	s_mem_allow
 	size_t		size_req;
 	size_t		total_size;
 	int			pages_nb;
-	char		type[6];
+	char		*type;
 }				t_mem_allow;
+
+typedef struct	s_mem_allowed
+{
+	void		**addr;
+}				t_mem_allowed;
 
 void			*ft_malloc(size_t size);
 void			info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr);
 void			show_alloc_mem();
+void			*tiny_malloc(size_t size);
+void			*small_malloc(size_t size);
+void			*large_malloc(size_t size);
+
 
 #endif
