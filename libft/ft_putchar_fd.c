@@ -1,33 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.h                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppellegr <ppellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/04 15:46:35 by ppellegr          #+#    #+#             */
-/*   Updated: 2015/11/04 15:46:38 by ppellegr         ###   ########.fr       */
+/*   Created: 2013/11/23 21:34:12 by ppellegr          #+#    #+#             */
+/*   Updated: 2013/11/23 21:34:14 by ppellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MALLOC_H
-# define FT_MALLOC_H
+#include "libft.h"
 
-# include <sys/mman.h>
-# include <unistd.h>
-# include <sys/resource.h>
-
-typedef struct	s_mem_allow
+void	ft_putchar_fd(char c, int fd)
 {
-	void		*start_ptr;
-	size_t		size_req;
-	size_t		total_size;
-	int			pages_nb;
-	char		type[6];
-}				t_mem_allow;
-
-void			*ft_malloc(size_t size);
-void			info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr);
-void			show_alloc_mem();
-
-#endif
+	write(fd, &c, 1);
+}

@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.h                                        :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppellegr <ppellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/04 15:46:35 by ppellegr          #+#    #+#             */
-/*   Updated: 2015/11/04 15:46:38 by ppellegr         ###   ########.fr       */
+/*   Created: 2013/11/23 22:08:25 by ppellegr          #+#    #+#             */
+/*   Updated: 2013/11/23 22:08:26 by ppellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MALLOC_H
-# define FT_MALLOC_H
+#include "libft.h"
 
-# include <sys/mman.h>
-# include <unistd.h>
-# include <sys/resource.h>
-
-typedef struct	s_mem_allow
+int			ft_strequ(char const *s1, char const *s2)
 {
-	void		*start_ptr;
-	size_t		size_req;
-	size_t		total_size;
-	int			pages_nb;
-	char		type[6];
-}				t_mem_allow;
-
-void			*ft_malloc(size_t size);
-void			info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr);
-void			show_alloc_mem();
-
-#endif
+	if (s1[0] == '\0' && s2[0] == '\0')
+		return (1);
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	while (*s1 == *s2)
+	{
+		if (*s1 == '\0' && *s2 == '\0')
+			return (1);
+		++s1;
+		++s2;
+	}
+	return (0);
+}

@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.h                                        :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppellegr <ppellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/04 15:46:35 by ppellegr          #+#    #+#             */
-/*   Updated: 2015/11/04 15:46:38 by ppellegr         ###   ########.fr       */
+/*   Created: 2013/11/26 17:57:53 by ppellegr          #+#    #+#             */
+/*   Updated: 2013/11/26 17:57:55 by ppellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MALLOC_H
-# define FT_MALLOC_H
+#include "libft.h"
 
-# include <sys/mman.h>
-# include <unistd.h>
-# include <sys/resource.h>
-
-typedef struct	s_mem_allow
+char	*ft_strnew(size_t size)
 {
-	void		*start_ptr;
-	size_t		size_req;
-	size_t		total_size;
-	int			pages_nb;
-	char		type[6];
-}				t_mem_allow;
+	char	*allo;
+	char	*tmp;
+	size_t	size_tmp;
 
-void			*ft_malloc(size_t size);
-void			info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr);
-void			show_alloc_mem();
-
-#endif
+	size_tmp = size + 1;
+	allo = malloc(size + 1);
+	if (allo == NULL)
+		return (NULL);
+	tmp = allo;
+	while (--size_tmp)
+		*allo++ = '\0';
+	tmp[size] = '\0';
+	return (tmp);
+}

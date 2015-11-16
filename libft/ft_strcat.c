@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.h                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppellegr <ppellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/04 15:46:35 by ppellegr          #+#    #+#             */
-/*   Updated: 2015/11/04 15:46:38 by ppellegr         ###   ########.fr       */
+/*   Created: 2013/11/19 16:26:56 by ppellegr          #+#    #+#             */
+/*   Updated: 2013/11/19 16:27:00 by ppellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MALLOC_H
-# define FT_MALLOC_H
+#include "libft.h"
 
-# include <sys/mman.h>
-# include <unistd.h>
-# include <sys/resource.h>
-
-typedef struct	s_mem_allow
+char	*ft_strcat(char *dest, const char *src)
 {
-	void		*start_ptr;
-	size_t		size_req;
-	size_t		total_size;
-	int			pages_nb;
-	char		type[6];
-}				t_mem_allow;
+	int			i;
+	int			j;
 
-void			*ft_malloc(size_t size);
-void			info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr);
-void			show_alloc_mem();
-
-#endif
+	i = 0;
+	j = 0;
+	if (dest == NULL || src == NULL)
+		return (NULL);
+	while (dest[j] != '\0')
+		j++;
+	while (src[i] != '\0')
+	{
+		dest[j + i] = src[i];
+		i++;
+	}
+	dest[j + i] = '\0';
+	return (dest);
+}

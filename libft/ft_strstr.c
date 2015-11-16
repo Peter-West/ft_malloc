@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.h                                        :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppellegr <ppellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/04 15:46:35 by ppellegr          #+#    #+#             */
-/*   Updated: 2015/11/04 15:46:38 by ppellegr         ###   ########.fr       */
+/*   Created: 2013/11/20 17:45:59 by ppellegr          #+#    #+#             */
+/*   Updated: 2013/11/20 17:46:00 by ppellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MALLOC_H
-# define FT_MALLOC_H
+#include "libft.h"
 
-# include <sys/mman.h>
-# include <unistd.h>
-# include <sys/resource.h>
-
-typedef struct	s_mem_allow
+char	*ft_strstr(const char *s1, const char *s2)
 {
-	void		*start_ptr;
-	size_t		size_req;
-	size_t		total_size;
-	int			pages_nb;
-	char		type[6];
-}				t_mem_allow;
+	size_t		i;
+	size_t		j;
 
-void			*ft_malloc(size_t size);
-void			info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr);
-void			show_alloc_mem();
-
-#endif
+	j = 0;
+	i = 0;
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	if (s2[j] == '\0')
+		return ((char *)s1);
+	while (s1[i] != '\0')
+	{
+		while (s1[i + j] == s2[j] && s2[j] != '\0')
+			j++;
+		if (s2[j] == '\0')
+			return ((char*)s1 + i);
+		i++;
+		j = 0;
+	}
+	return (NULL);
+}

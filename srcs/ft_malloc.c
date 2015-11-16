@@ -27,11 +27,10 @@
 //            };
 
 
-void	info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr, size_t page_size) {
+void				info_struct(t_mem_allow	*mem, size_t size, void *mmap_ptr) {
 	mem->start_ptr = mmap_ptr;
 	mem->size_req = size;
-	mem->total_size = size + sizeof(*mem);
-	mem->pages_nb = (size / page_size) + 1;
+	mem->pages_nb = (size / (size_t)getpagesize()) + 1;
 
 	printf("size_struct : %zu\n", sizeof(*mem));
 	printf("mmap_ptr : %p\n", mem->start_ptr);
@@ -43,48 +42,51 @@ void	info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr, size_t page_size)
 	printf("size size_t : %zu\n", sizeof(size_t));
 }
 
-void	*ft_malloc(size_t size)
+void				show_alloc_mem(){
+
+}
+
+void				tiny_malloc(size_t size)
 {
-	int					page_size = getpagesize();
-	int					fd;
-	struct rlimit		*rlp = NULL;
-	int					limit = 0;
-	t_mem_allow			mem;
+	t_mem_allow		mem;
+	char			*mmap_ptr = NULL;
 
+	mmap_ptr = mmap(NULL, mem.total_size, PROT_READ | PROT_WRITE , MAP_ANON | MAP_PRIVATE, -1, 0);
+	
+}
 
-	if (-1 == (fd = open("all_users", O_CREAT | O_RDWR, 0755)))
-	{
-		printf("open failed\n");
-		return (NULL);
-	}
+void				*ft_malloc(size_t size)
+{
+	struct rlimit	rlp;
+	int				limit = 0;
+	t_mem_allow		mem;
+	char			*mmap_ptr = NULL;
 
-	void				*mmap_ptr = NULL;
-	limit = getrlimit(RLIMIT_CORE, rlp);
+	limit = getrlimit(RLIMIT_CORE, &rlp);
 	if (limit == -1)
 		perror("-- ");
 
-	mmap_ptr = mmap(NULL, size, PROT_READ | PROT_WRITE , MAP_SHARED, fd, page_size);
+	printf("rlp.rlim_cur : %llu\n", rlp.rlim_cur);
 
-	info_struct(&mem, size, mmap_ptr, page_size);
-
-	if (mmap_ptr != MAP_FAILED)
-		printf("yes\n");
+	if (size < 100)
+		tiny_malloc(size);
 	else
 	{
-		// printf("%s\n", strerror((int)MAP_FAILED));
-		// int errsv = errno;
-		// if (errsv == MAP_FAILED)
+		mem.total_size = size + sizeof(mem);
+
+		mmap_ptr = mmap(NULL, mem.total_size, PROT_READ | PROT_WRITE , MAP_ANON | MAP_PRIVATE, -1, 0);
+		info_struct(&mem, size, mmap_ptr);
+
+		if (mmap_ptr == MAP_FAILED)
 			perror("** ");
 
+		size_t	test_struct;
+		test_struct = sizeof(mem);
+
+		// printf("mmap_ptr : %p\n", mmap_ptr);
 	}
-
-	size_t	test_struct;
-	test_struct = sizeof(mem);
-
-	// printf("limit %d\n", limit);
-	printf("mmap_ptr : %p\n", mmap_ptr);
-	printf("\nsize structure : %zu\n", test_struct);
-	printf("size : %zu\n", size);
-	// printf("page_size : %d\n", page_size);
 	return (NULL);
 }
+
+
+

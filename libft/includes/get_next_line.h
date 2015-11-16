@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.h                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ppellegr <ppellegr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/04 15:46:35 by ppellegr          #+#    #+#             */
-/*   Updated: 2015/11/04 15:46:38 by ppellegr         ###   ########.fr       */
+/*   Created: 2013/12/02 18:31:20 by ppellegr          #+#    #+#             */
+/*   Updated: 2013/12/08 19:38:34 by ppellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MALLOC_H
-# define FT_MALLOC_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# define BUF_SIZE 1
 
-# include <sys/mman.h>
+# include <string.h>
+# include <sys/types.h>
+# include <sys/uio.h>
 # include <unistd.h>
-# include <sys/resource.h>
+# include <stdlib.h>
+# include "libft.h"
 
-typedef struct	s_mem_allow
-{
-	void		*start_ptr;
-	size_t		size_req;
-	size_t		total_size;
-	int			pages_nb;
-	char		type[6];
-}				t_mem_allow;
-
-void			*ft_malloc(size_t size);
-void			info_struct(t_mem_allow	*mem, size_t size,void *mmap_ptr);
-void			show_alloc_mem();
+int		get_next_line(int const fd, char **line);
+char	*ft_delete_read_line(char *s, int i);
+int		ft_buffer_filling(int const fd, char **str);
+int		ft_checking_new_line(char *s);
+int		get_next_line(int const fd, char **line);
 
 #endif

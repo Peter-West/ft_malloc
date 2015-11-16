@@ -20,13 +20,15 @@ CXXFLAGS			:= -Wall -Wextra -Werror
 DEBUG				:= -g
 OBJECTS				:= $(patsubst %.c, $(PATH_OBJ)/%.o, $(SRCS))
 INCLUDES			:= -I./$(PATH_INC)
+LIBFT				:= libft/
+
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) $(DEBUG) $(CXXFLAGS)
+	$(CXX) -o $@ $(OBJECTS) $(DEBUG) $(CXXFLAGS) 
 
 $(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
 	@mkdir -p $(PATH_OBJ)
