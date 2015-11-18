@@ -10,8 +10,12 @@
 #                                                                              #
 #******************************************************************************#
 
-NAME				:= a
-SRCS				:= main.c ft_malloc.c
+ifeq ($(HOSTTYPE),)
+	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
+NAME				:= libft_malloc_$(HOSTTYPE).so
+SRCS				:= ft_malloc.c
 PATH_OBJ			:= objs
 PATH_SRC			:= srcs
 PATH_INC			:= incs
@@ -20,8 +24,6 @@ CXXFLAGS			:= -Wall -Wextra -Werror
 DEBUG				:= -g
 OBJECTS				:= $(patsubst %.c, $(PATH_OBJ)/%.o, $(SRCS))
 INCLUDES			:= -I./$(PATH_INC)
-LIBFT				:= -L libft -lft
-
 
 .PHONY: all clean fclean re
 

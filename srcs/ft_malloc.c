@@ -87,7 +87,7 @@ void				*tiny_malloc(size_t size)
 	return(&re_mem[sizeof(mem)]);
 }
 
-void				*ft_malloc(size_t size)
+void				*malloc(size_t size)
 {
 	struct rlimit	rlp;
 	int				limit = 0;
@@ -100,9 +100,9 @@ void				*ft_malloc(size_t size)
 
 	printf("rlp.rlim_cur : %llu\n", rlp.rlim_cur);
 
-	if (size < 100)
+	if (size <= TINY_M)
 		return (tiny_malloc(size));
-	else if (size < 10000)
+	else if (size <= SMALL_M)
 		return (small_malloc(size));
 	else
 		return (large_malloc(size));
