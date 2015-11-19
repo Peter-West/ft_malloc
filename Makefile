@@ -30,7 +30,9 @@ INCLUDES			:= -I./$(PATH_INC)
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) $(DEBUG) $(CXXFLAGS) 
+	$(CXX) -o $@ $(OBJECTS) $(DEBUG) $(CXXFLAGS) -shared -fpic
+	rm -f libft_malloc.so
+	ln -s $(NAME) libft_malloc.so
 
 $(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
 	@mkdir -p $(PATH_OBJ)
@@ -41,5 +43,6 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f libft_malloc.so
 
 re: fclean $(NAME)
