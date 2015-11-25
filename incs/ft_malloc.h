@@ -49,15 +49,21 @@ typedef struct		s_block {
 
 typedef struct		s_malloc
 {
-	t_tiny			*m_tiny;
-	t_small			*m_small;
-	t_large			*m_large;
+	t_blkset		*m_tiny;
+	t_blkset		*m_small;
+	t_blkset		*m_large;
 }					t_malloc;
 
 void			*malloc(size_t size);
 void			show_alloc_mem();
 void			*tiny_malloc(size_t size);
-void			*small_malloc(size_t size);
-void			*large_malloc(size_t size);
+// void			*small_malloc(size_t size);
+// void			*large_malloc(size_t size);
+t_block			*add_block_in_new_set(t_blkset *blkset, size_t size);
+t_blkset		*alloc_blkset(size_t size, char *type);
+t_blkset		*init_blkset(void *ptr, size_t size, char *type);
+t_block			*init_block(void *ptr, size_t size);
+void			insert_block(t_block *blk, size_t size);
+
 
 #endif

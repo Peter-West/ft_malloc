@@ -17,7 +17,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-t_malloc			alloc_array;
+t_malloc			alloc_list;
 
 void				show_alloc_mem(){
 	
@@ -54,31 +54,42 @@ t_block				*init_block(void *ptr, size_t size)
 	b->size = size;
 	b->next = NULL;
 	b->prev = NULL;
-	b->isfree = 0;
+	b->is_free = 0;
 	return (b);
 }
 
+void				insert_block(t_block *blk, size_t size)
+{
+	t_block			*new_blk;
+
+	printf("size : %zu\n", size);
+	new_blk = (t_block*)((void*)blk + sizeof(blk) + blk->size);
+	new_blk->next = blk->next;
+	blk->next = new_blk;
+	new_blk->prev = blk;
+}
 
 t_blkset			*alloc_blkset(size_t size, char *type)
 {
-	t_mem_allow		mem;
-	t_block			*bl;
+	// t_block			*bl;
 	t_blkset		*blkset;
 
 	blkset = (t_blkset*)mmap(NULL, size, PROT_READ | PROT_WRITE ,
 		MAP_ANON | MAP_PRIVATE, -1, 0);
-	alloc_array.m_tiny = blkset;
-	init_blkset(blkset, size, type)
+	alloc_list.m_tiny = blkset;
+	init_blkset(blkset, size, type);
 	return (blkset);
 }
 
-t_block				*add_block_in_set(t_blkset *blkset, size_t size)
+t_block				*add_block_in_new_set(t_blkset *blkset, size_t size)
 {
 	t_block			*new_blk;
 
-	blk = (t_block*)(void*)&blkset + size;
+	new_blk = (t_block*)(void*)&blkset + size;
+	init_block(new_blk, size);
+	insert_block(new_blk, size);
 	blkset->first = new_blk;
-	return(blk);
+	return(new_blk);
 }
 
 void				*tiny_malloc(size_t size)
@@ -87,9 +98,9 @@ void				*tiny_malloc(size_t size)
 	t_block			*block;
 
 	blkset = alloc_blkset(TINY_LENGTH, "TINY");
-	block = add_block_in_set(blkset, size);
+	block = add_block_in_new_set(blkset, size);
 
-	return ();
+	return (block);
 }
 
 void				*malloc(size_t size)
@@ -105,10 +116,10 @@ void				*malloc(size_t size)
 
 	if (size <= TINY_M)
 		return (tiny_malloc(size));
-	else if (size <= SMALL_M)
+	/*else if (size <= SMALL_M)
 		return (small_malloc(size));
 	else
-		return (large_malloc(size));
+		return (large_malloc(size));*/
 	return (NULL);
 }
 
